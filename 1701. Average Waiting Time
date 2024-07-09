@@ -1,0 +1,29 @@
+class Solution {
+public:
+    double averageWaitingTime(vector<vector<int>>& customers) {  
+        double n=customers.size();
+        // cout<<"N"<<n<<endl;
+        int time=customers[0][0] + customers[0][1];
+        double ans=time - customers[0][0];
+        for(int i=1;i<n;i++){
+                if(customers[i][0] <= time || time >= customers[i][0]){
+                // cout<<"ans "<< ans <<" time "<<time << " customers[i][1] "<< customers[i][1]<<endl;
+                time+=customers[i][1];
+                // cout<<"Time in Loop :- "<<time <<endl;
+                ans+=time-customers[i][0];
+                // cout<<"ans in loop :- "<<ans<<endl;
+                // cout<<"------------------"<<endl;
+            }else{
+                // cout<<"ans "<< ans <<" time "<<time << " customers[i][0] "<< customers[i][0]<< " && customers[i][1] "<<customers[i][1]<<endl;
+                time=customers[i][0] + customers[i][1];
+                // cout<<" time in loop 2 :- "<< time<<endl;
+                ans+=time - customers[i][0];
+                
+                // cout<<"customers[i][0] loop 2 :- "<< customers[i][0] <<" ustomers[i][1]  "<< customers[i][1]<<endl;
+                // cout<<"ans in loop no.2 :- "<<ans<<endl;
+                // cout<<"------------------"<<endl;
+            }
+        }
+        return ans/n;
+    }
+};
