@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int chalkReplacer(vector<int>& chalk, int k) {
+        // long long accSum = accumulate(chalk.begin(), chalk.end(), 0LL);
+        // k %= accSum; 
+        long long MOD=1e9;
+        long long sum=0;
+        for (int i = 0; i < chalk.size(); ++i) {
+            sum+=chalk[i]%MOD;
+        }
+        k=k%sum%MOD;
+        for (int i = 0; i < chalk.size(); ++i){
+            if(chalk[i]>k){
+                return i;
+            }
+            k=k-chalk[i]%MOD;
+        }
+        return -1;  
+    }
+};
