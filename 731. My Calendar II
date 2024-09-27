@@ -1,0 +1,48 @@
+struct Node{
+    int s, t;
+    Node *left, * right;
+    Node(int s, int t): s(s), t(t), left(NULL), right(NULL){}
+};
+class MyCalendarTwo {
+    using int2=pair<int, int>;
+    vector<int2> S1;
+    Node* S2;
+public:
+    MyCalendarTwo() :S2(NULL){
+        S1.reserve(1000);
+    }
+    bool dfs(int s, int t, Node* &curr, bool add=0){
+        if (!curr) {
+            if (add) curr=new Node(s, t);// only add==true add Node
+            return 1;
+        }
+        if (t<=curr->s) return dfs(s, t, curr->left, add);
+        else if (s>=curr->t) return dfs(s, t, curr->right, add);
+        else return 0;
+    }
+
+    bool book(int start, int end) {     
+        if (!dfs(start, end, S2)) return 0;
+        
+        for (auto& [s, t]: S1){//There are expected several intervals
+            int s0=max(s, start), t0=min(t, end);
+            if  (s0 < t0)// overlap with S1
+                dfs(s0, t0, S2, 1);//put into S2
+        }
+        S1.emplace_back(start, end);
+        return 1;
+    }
+};
+
+
+auto init = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    return 'c';
+}();
+/**
+ * Your MyCalendarTwo object will be instantiated and called as such:
+ * MyCalendarTwo* obj = new MyCalendarTwo();
+ * bool param_1 = obj->book(start,end);
+ */
