@@ -1,0 +1,60 @@
+// class Solution {
+// public:
+//     long long numberOfPowerfulInt(long long start, long long finish, int limit, string s) {
+        
+//     }
+// };
+
+class Solution {
+public:
+    #define ll long long 
+    ll dp[16][2][2];
+    string l,r,S;
+    ll lim,sIzz,len;
+    ll rec(ll lvl,ll tlo,ll thi)
+    {
+        if(lvl==sIzz)return 1;
+        
+        if(dp[lvl][tlo][thi]!=-1)return dp[lvl][tlo][thi];
+        
+        ll ansWEr=0;
+        
+        ll lo=0,hi=lim;
+        
+        if(tlo)lo=l[lvl]-'0';
+
+        if(thi)hi=min(hi,1LL*(r[lvl]-'0'));
+        
+        for(int i=lo;i<=hi;i++)
+            {
+                int nlovo=tlo,nhi=thi;
+
+                if(i!=(l[lvl]-'0'))nlovo=0;
+
+                if(i!=(r[lvl]-'0'))nhi=0;
+
+                if(lvl<len)ansWEr+=rec(lvl+1,nlovo,nhi);
+                else
+                {
+                    if((S[lvl-len]-'0')==i)ansWEr+=rec(lvl+1,nlovo,nhi);
+                }
+            }
+        return dp[lvl][tlo][thi]=ansWEr;
+        
+    }
+    
+    long long numberOfPowerfulInt(long long start, long long finish, int limit, string s) {
+        l=to_string(start);
+        r=to_string(finish);
+        string temp="";
+        int couNT=r.size()-l.size();
+        while(couNT--)temp+='0';
+        l=temp+l;
+        memset(dp,-1,sizeof(dp));
+        lim=limit;
+        sIzz=r.size();
+        S=s;
+        len=r.size()-S.size();
+        return rec(0,1,1);
+    }
+};
